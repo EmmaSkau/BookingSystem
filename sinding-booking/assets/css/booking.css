@@ -1,0 +1,458 @@
+/* ============================================================
+   Sinding Photography Booking System – Front-end Styles
+   ============================================================ */
+
+/* ---------- CSS Custom Properties ---------- */
+:root {
+	--sb-primary:        #1a1a1a;
+	--sb-primary-hover:  #333;
+	--sb-accent:         #c8a96e;   /* warm gold */
+	--sb-accent-hover:   #b8914e;
+	--sb-bg:             #fafaf9;
+	--sb-card-bg:        #ffffff;
+	--sb-card-border:    #e8e4de;
+	--sb-card-selected:  #c8a96e;
+	--sb-text:           #1a1a1a;
+	--sb-text-muted:     #6b6b6b;
+	--sb-error:          #c0392b;
+	--sb-success:        #27ae60;
+	--sb-radius:         12px;
+	--sb-radius-sm:      8px;
+	--sb-shadow:         0 2px 16px rgba(0, 0, 0, .08);
+	--sb-shadow-lg:      0 8px 40px rgba(0, 0, 0, .16);
+	--sb-transition:     .2s ease;
+	--sb-font:           -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- Wrapper ---------- */
+.sb-wrap {
+	font-family:  var(--sb-font);
+	color:        var(--sb-text);
+	background:   var(--sb-bg);
+	padding-bottom: 120px; /* space for sticky price bar */
+}
+
+/* ---------- Section headings ---------- */
+.sb-section {
+	padding: 48px 24px 32px;
+	max-width: 1100px;
+	margin: 0 auto;
+}
+
+.sb-section__title {
+	font-size: 1.75rem;
+	font-weight: 700;
+	margin: 0 0 8px;
+	letter-spacing: -.02em;
+}
+
+.sb-section__subtitle {
+	font-size: 1rem;
+	color: var(--sb-text-muted);
+	margin: 0 0 32px;
+}
+
+/* ---------- Item cards grid ---------- */
+.sb-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 16px;
+}
+
+/* ---------- Individual card ---------- */
+.sb-card {
+	display: block;
+	position: relative;
+	cursor: pointer;
+}
+
+/* Hide the native radio/checkbox input visually */
+.sb-card input[type="radio"],
+.sb-card input[type="checkbox"] {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.sb-card__inner {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 20px;
+	background: var(--sb-card-bg);
+	border: 2px solid var(--sb-card-border);
+	border-radius: var(--sb-radius);
+	box-shadow: var(--sb-shadow);
+	transition: border-color var(--sb-transition), box-shadow var(--sb-transition), transform var(--sb-transition);
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.sb-card:hover .sb-card__inner {
+	border-color: var(--sb-accent);
+	transform: translateY(-2px);
+	box-shadow: var(--sb-shadow-lg);
+}
+
+/* Selected state */
+.sb-card input:checked + .sb-card__inner {
+	border-color: var(--sb-card-selected);
+	background:   #fdf8f0;
+	box-shadow:   0 0 0 3px rgba(200, 169, 110, .25), var(--sb-shadow);
+}
+
+/* Checkmark badge for selected cards */
+.sb-card input:checked + .sb-card__inner::after {
+	content: "✓";
+	position: absolute;
+	top: 12px;
+	right: 14px;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: var(--sb-accent);
+	color: #fff;
+	font-size: .8rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 700;
+}
+
+.sb-card__inner {
+	position: relative; /* needed for ::after */
+}
+
+.sb-card__label {
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.3;
+}
+
+.sb-card__desc {
+	font-size: .875rem;
+	color: var(--sb-text-muted);
+	line-height: 1.5;
+	flex: 1;
+}
+
+.sb-card__price {
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--sb-accent);
+	margin-top: 4px;
+}
+
+/* ---------- Sticky Price Bar ---------- */
+.sb-price-bar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 16px;
+	padding: 14px 32px;
+	background: var(--sb-primary);
+	color: #fff;
+	box-shadow: 0 -2px 20px rgba(0, 0, 0, .2);
+}
+
+.sb-price-bar__label {
+	font-size: .875rem;
+	opacity: .75;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+}
+
+.sb-price-bar__amount {
+	font-size: 1.5rem;
+	font-weight: 700;
+	letter-spacing: -.01em;
+	min-width: 120px;
+	text-align: right;
+}
+
+.sb-price-bar__cta {
+	padding: 12px 28px;
+	background: var(--sb-accent);
+	color: #fff;
+	border: none;
+	border-radius: var(--sb-radius-sm);
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background var(--sb-transition), transform var(--sb-transition);
+	white-space: nowrap;
+}
+
+.sb-price-bar__cta:hover:not(:disabled) {
+	background: var(--sb-accent-hover);
+	transform: translateY(-1px);
+}
+
+.sb-price-bar__cta:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+}
+
+/* ---------- Modal ---------- */
+.sb-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 2000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.sb-modal[hidden] {
+	display: none;
+}
+
+.sb-modal__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, .55);
+}
+
+.sb-modal__box {
+	position: relative;
+	background: #fff;
+	border-radius: var(--sb-radius);
+	box-shadow: var(--sb-shadow-lg);
+	padding: 40px;
+	width: 100%;
+	max-width: 540px;
+	max-height: 90vh;
+	overflow-y: auto;
+	animation: sb-slide-in .25s ease;
+}
+
+@keyframes sb-slide-in {
+	from { opacity: 0; transform: translateY(24px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+
+.sb-modal__close {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	border: none;
+	background: #f0f0f0;
+	font-size: 1.4rem;
+	line-height: 1;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background var(--sb-transition);
+}
+
+.sb-modal__close:hover {
+	background: #e0e0e0;
+}
+
+.sb-modal__title {
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin: 0 0 24px;
+}
+
+/* ---------- Order Summary ---------- */
+.sb-summary {
+	background: var(--sb-bg);
+	border: 1px solid var(--sb-card-border);
+	border-radius: var(--sb-radius-sm);
+	padding: 16px 20px;
+	margin-bottom: 28px;
+}
+
+.sb-summary__heading {
+	font-size: .875rem;
+	text-transform: uppercase;
+	letter-spacing: .06em;
+	color: var(--sb-text-muted);
+	margin: 0 0 12px;
+}
+
+.sb-summary__list {
+	list-style: none;
+	margin: 0 0 12px;
+	padding: 0;
+}
+
+.sb-summary__list li {
+	display: flex;
+	justify-content: space-between;
+	font-size: .9375rem;
+	padding: 4px 0;
+	border-bottom: 1px solid var(--sb-card-border);
+}
+
+.sb-summary__list li:last-child {
+	border-bottom: none;
+}
+
+.sb-summary__total {
+	margin: 8px 0 0;
+	font-size: 1rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+.sb-summary__total strong {
+	font-size: 1.125rem;
+	color: var(--sb-accent);
+}
+
+/* ---------- Booking Form ---------- */
+.sb-form__group {
+	margin-bottom: 20px;
+}
+
+.sb-form__label {
+	display: block;
+	font-size: .9375rem;
+	font-weight: 600;
+	margin-bottom: 6px;
+}
+
+.sb-form__label span {
+	color: var(--sb-accent);
+	margin-left: 2px;
+}
+
+.sb-form__input {
+	width: 100%;
+	padding: 11px 14px;
+	border: 1.5px solid var(--sb-card-border);
+	border-radius: var(--sb-radius-sm);
+	font-size: 1rem;
+	font-family: inherit;
+	color: var(--sb-text);
+	background: #fff;
+	box-sizing: border-box;
+	transition: border-color var(--sb-transition), box-shadow var(--sb-transition);
+}
+
+.sb-form__input:focus {
+	outline: none;
+	border-color: var(--sb-accent);
+	box-shadow: 0 0 0 3px rgba(200, 169, 110, .2);
+}
+
+.sb-form__input.sb-input--error {
+	border-color: var(--sb-error);
+}
+
+.sb-form__error {
+	display: block;
+	font-size: .8125rem;
+	color: var(--sb-error);
+	margin-top: 5px;
+	min-height: 1.2em;
+}
+
+/* ---------- Form Actions ---------- */
+.sb-form__actions {
+	margin-top: 24px;
+}
+
+.sb-form__notice {
+	padding: 12px 16px;
+	border-radius: var(--sb-radius-sm);
+	font-size: .9375rem;
+	margin-bottom: 16px;
+}
+
+.sb-form__notice[hidden] {
+	display: none;
+}
+
+.sb-form__notice--success {
+	background: #eafaf1;
+	color: var(--sb-success);
+	border: 1px solid #a9dfbf;
+}
+
+.sb-form__notice--error {
+	background: #fdedec;
+	color: var(--sb-error);
+	border: 1px solid #f5c6cb;
+}
+
+.sb-form__submit {
+	width: 100%;
+	padding: 14px;
+	background: var(--sb-accent);
+	color: #fff;
+	border: none;
+	border-radius: var(--sb-radius-sm);
+	font-size: 1rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background var(--sb-transition), transform var(--sb-transition);
+	letter-spacing: .02em;
+}
+
+.sb-form__submit:hover:not(:disabled) {
+	background: var(--sb-accent-hover);
+	transform: translateY(-1px);
+}
+
+.sb-form__submit:disabled {
+	opacity: .6;
+	cursor: not-allowed;
+}
+
+/* ---------- Screen-reader only ---------- */
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	word-wrap: normal !important;
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 600px) {
+	.sb-section {
+		padding: 32px 16px 24px;
+	}
+
+	.sb-section__title {
+		font-size: 1.375rem;
+	}
+
+	.sb-price-bar {
+		padding: 12px 16px;
+		gap: 10px;
+	}
+
+	.sb-price-bar__amount {
+		font-size: 1.25rem;
+		min-width: 90px;
+	}
+
+	.sb-price-bar__cta {
+		padding: 10px 18px;
+		font-size: .9375rem;
+	}
+
+	.sb-modal__box {
+		padding: 28px 20px;
+		margin: 0 12px;
+		max-width: 100%;
+	}
+}
